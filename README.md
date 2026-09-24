@@ -46,17 +46,18 @@ The `Class` column represents the transaction category, where fraudulent and nor
 
 ## Project Structure
 
-```text
 fraud-intelligent-system/
-├── detector/
-├── fraud_system/
-├── model/
-├── manage.py
-├── analyze_data.py
-├── check_dataset.py
-├── compare_models.py
-└── create_test_csv.py
-```
+detector/ - Django application
+fraud_system/ - Django project configuration
+gis/ - CSS, JavaScript and image files
+model/ - Trained Random Forest model files
+templates/ - HTML templates
+manage.py - Django management script
+requirements.txt - Python dependencies
+analyze_data.py - Dataset analysis
+check_dataset.py - Dataset validation
+compare_models.py - Model comparison
+create_test_csv.py - Test CSV generation
 
 ## Model
 
