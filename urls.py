@@ -1,48 +1,17 @@
-from django.urls import path
-from . import views
+from django.contrib import admin
+from django.urls import path, include
 
 
 urlpatterns = [
 
     path(
+        "admin/",
+        admin.site.urls
+    ),
+
+    path(
         "",
-        views.home,
-        name="home"
+        include("detector.urls")
     ),
 
-    path(
-        "predict/",
-        views.predict,
-        name="predict"
-    ),
-
-    path(
-        "upload/",
-        views.upload_csv,
-        name="upload"
-    ),
-
-    path(
-        "search/",
-        views.search_transaction,
-        name="search_transaction"
-    ),
-
-    path(
-        "dashboard/",
-        views.dashboard,
-        name="dashboard"
-    ),
-
-    path(
-        "download-results/",
-        views.download_fraud_results,
-        name="download_fraud_results"
-    ),
-
-    path(
-        "download-dataset/",
-        views.download_dataset,
-        name="download_dataset"
-    ),
 ]
