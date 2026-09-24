@@ -359,6 +359,26 @@ This project demonstrates the practical integration of:
 * Model evaluation
 * CSV data processing
 
+PROJECT DOCUMENTATION
+
+The following PDF files provide screenshots and documentation of the main application pages.
+
+Home Page
+home.pdf
+
+Fraud Detection Page
+detect.pdf
+
+File Upload Page
+upload.pdf
+
+Transaction Search Page
+search.pdf
+
+Analytics Dashboard
+dashboard.pdf
+
+
 It was developed as a portfolio project to demonstrate practical skills in **Data Science, Machine Learning, Python, and Django**.
 
 ## Author
