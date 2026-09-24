@@ -1,0 +1,1206 @@
+{% extends "base.html" %}
+
+{% block title %}Upload File | Fraud Intelligent{% endblock %}
+
+{% block extra_css %}
+<style>
+    .upload-page {
+        min-height: calc(100vh - 150px);
+        padding: 55px 20px 70px;
+        background:
+            radial-gradient(circle at top left, rgba(37,99,235,0.10), transparent 35%),
+            radial-gradient(circle at bottom right, rgba(14,165,233,0.09), transparent 35%),
+            #f5f9ff;
+    }
+
+    .upload-container {
+        max-width: 1150px;
+        margin: auto;
+    }
+
+    /* HERO */
+    .upload-hero {
+        text-align: center;
+        margin-bottom: 42px;
+    }
+
+    .upload-icon {
+        width: 82px;
+        height: 82px;
+        margin: 0 auto 18px;
+        border-radius: 24px;
+        background: linear-gradient(135deg, #2563eb, #0ea5e9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+        box-shadow: 0 15px 35px rgba(37,99,235,0.25);
+        animation: uploadFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes uploadFloat {
+        0%, 100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-8px);
+        }
+    }
+
+    .upload-hero h1 {
+        margin: 0;
+        color: #0f172a;
+        font-size: 42px;
+        font-weight: 800;
+        letter-spacing: -1px;
+    }
+
+    .upload-hero h1 span {
+        color: #2563eb;
+    }
+
+    .upload-hero p {
+        max-width: 700px;
+        margin: 14px auto 0;
+        color: #64748b;
+        font-size: 17px;
+        line-height: 1.7;
+    }
+
+    .hero-badges {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .hero-badge {
+        background: white;
+        border: 1px solid #dbeafe;
+        color: #2563eb;
+        padding: 8px 15px;
+        border-radius: 30px;
+        font-size: 13px;
+        font-weight: 700;
+        box-shadow: 0 5px 15px rgba(15,23,42,0.05);
+    }
+
+    /* MESSAGE */
+    .success-message {
+        margin-bottom: 25px;
+        padding: 17px 20px;
+        border-radius: 15px;
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        color: #15803d;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        animation: messageAppear 0.5s ease;
+    }
+
+    .error-message {
+        margin-bottom: 25px;
+        padding: 17px 20px;
+        border-radius: 15px;
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        color: #b91c1c;
+        font-weight: 700;
+    }
+
+    @keyframes messageAppear {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* MAIN GRID */
+    .upload-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 28px;
+    }
+
+    .upload-card,
+    .info-card {
+        background: rgba(255,255,255,0.97);
+        border: 1px solid #dbeafe;
+        border-radius: 24px;
+        box-shadow: 0 15px 45px rgba(30,64,175,0.08);
+    }
+
+    .upload-card {
+        padding: 35px;
+    }
+
+    .card-heading {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .heading-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 15px;
+        background: #eff6ff;
+        color: #2563eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+    }
+
+    .card-heading h2 {
+        margin: 0;
+        color: #0f172a;
+        font-size: 23px;
+    }
+
+    .card-heading p {
+        margin: 4px 0 0;
+        color: #64748b;
+        font-size: 14px;
+    }
+
+    /* DROP AREA */
+    .drop-area {
+        position: relative;
+        border: 2px dashed #bfdbfe;
+        border-radius: 20px;
+        background: #f8fbff;
+        padding: 42px 25px;
+        text-align: center;
+        transition: 0.3s ease;
+        cursor: pointer;
+    }
+
+    .drop-area:hover,
+    .drop-area.dragover {
+        border-color: #3b82f6;
+        background: #eff6ff;
+        transform: translateY(-2px);
+    }
+
+    .drop-icon {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 15px;
+        border-radius: 20px;
+        background: white;
+        border: 1px solid #dbeafe;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        box-shadow: 0 8px 20px rgba(37,99,235,0.08);
+    }
+
+    .drop-area h3 {
+        margin: 0 0 8px;
+        color: #1e293b;
+        font-size: 19px;
+    }
+
+    .drop-area p {
+        margin: 0 0 17px;
+        color: #64748b;
+        font-size: 14px;
+    }
+
+    .choose-btn {
+        display: inline-block;
+        padding: 10px 18px;
+        border-radius: 10px;
+        background: #eff6ff;
+        color: #2563eb;
+        border: 1px solid #bfdbfe;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    #fileInput {
+        display: none;
+    }
+
+    .selected-file {
+        margin-top: 18px;
+        padding: 13px 15px;
+        border-radius: 12px;
+        background: white;
+        border: 1px solid #dbeafe;
+        color: #334155;
+        font-size: 13px;
+        font-weight: 700;
+        display: none;
+    }
+
+    .selected-file.show {
+        display: block;
+    }
+
+    /* FILE TYPES */
+    .file-types {
+        display: flex;
+        justify-content: center;
+        gap: 9px;
+        margin-top: 18px;
+    }
+
+    .file-type {
+        padding: 6px 11px;
+        border-radius: 8px;
+        background: #f1f5f9;
+        color: #475569;
+        font-size: 11px;
+        font-weight: 800;
+    }
+
+    /* BUTTON */
+    .analyze-btn {
+        width: 100%;
+        border: none;
+        border-radius: 14px;
+        padding: 16px 20px;
+        margin-top: 22px;
+        background: linear-gradient(135deg, #2563eb, #0ea5e9);
+        color: white;
+        font-size: 16px;
+        font-weight: 800;
+        cursor: pointer;
+        box-shadow: 0 12px 25px rgba(37,99,235,0.25);
+        transition: all 0.25s ease;
+    }
+
+    .analyze-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 17px 30px rgba(37,99,235,0.30);
+    }
+
+    /* INFO */
+    .info-card {
+        padding: 32px;
+    }
+
+    .info-card h3 {
+        margin: 0 0 22px;
+        color: #0f172a;
+        font-size: 21px;
+    }
+
+    .info-list {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .info-item {
+        display: flex;
+        gap: 13px;
+        align-items: flex-start;
+    }
+
+    .info-icon {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        border-radius: 11px;
+        background: #eff6ff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+    }
+
+    .info-item strong {
+        display: block;
+        color: #1e293b;
+        font-size: 14px;
+        margin-bottom: 3px;
+    }
+
+    .info-item span {
+        color: #64748b;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .supported-box {
+        margin-top: 25px;
+        padding: 20px;
+        border-radius: 17px;
+        background: linear-gradient(135deg, #eff6ff, #f0f9ff);
+        border: 1px solid #dbeafe;
+    }
+
+    .supported-title {
+        color: #1e3a8a;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .supported-box p {
+        margin: 0;
+        color: #64748b;
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    /* RESULTS */
+    .results-section {
+        margin-top: 32px;
+    }
+
+    .results-card {
+        background: white;
+        border: 1px solid #dbeafe;
+        border-radius: 24px;
+        padding: 35px;
+        box-shadow: 0 15px 45px rgba(30,64,175,0.10);
+        animation: resultAppear 0.5s ease;
+    }
+
+    @keyframes resultAppear {
+        from {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .results-heading {
+        text-align: center;
+        margin-bottom: 28px;
+    }
+
+    .results-heading-icon {
+        width: 58px;
+        height: 58px;
+        margin: 0 auto 12px;
+        border-radius: 17px;
+        background: #eff6ff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 27px;
+    }
+
+    .results-heading h2 {
+        margin: 0;
+        color: #0f172a;
+        font-size: 27px;
+    }
+
+    .results-heading p {
+        margin: 7px 0 0;
+        color: #64748b;
+    }
+
+    /* RESULT GRID */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+    }
+
+    .stat-card {
+        padding: 22px 16px;
+        border-radius: 17px;
+        background: #f8fbff;
+        border: 1px solid #e2e8f0;
+        text-align: center;
+        transition: 0.25s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(15,23,42,0.07);
+    }
+
+    .stat-icon {
+        font-size: 22px;
+        margin-bottom: 9px;
+    }
+
+    .stat-label {
+        display: block;
+        color: #64748b;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-bottom: 7px;
+    }
+
+    .stat-value {
+        color: #0f172a;
+        font-size: 23px;
+        font-weight: 800;
+    }
+
+    .fraud-stat {
+        border-color: #fecaca;
+        background: #fffafa;
+    }
+
+    .fraud-stat .stat-value {
+        color: #dc2626;
+    }
+
+    .normal-stat {
+        border-color: #bbf7d0;
+        background: #fafffb;
+    }
+
+    .normal-stat .stat-value {
+        color: #16a34a;
+    }
+
+    .rate-stat {
+        border-color: #bfdbfe;
+        background: #f8fbff;
+    }
+
+    .rate-stat .stat-value {
+        color: #2563eb;
+    }
+
+    /* MONEY ROW */
+    .amount-grid {
+        margin-top: 18px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+    }
+
+    .amount-card {
+        padding: 21px;
+        border-radius: 17px;
+        background: #f8fbff;
+        border: 1px solid #e2e8f0;
+    }
+
+    .amount-card-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+    }
+
+    .amount-card-header span {
+        color: #64748b;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .amount-value {
+        color: #0f172a;
+        font-size: 22px;
+        font-weight: 800;
+    }
+
+    .fraud-amount .amount-value {
+        color: #dc2626;
+    }
+
+    /* BOTTOM */
+    .bottom-section {
+        margin-top: 42px;
+    }
+
+    .bottom-title {
+        text-align: center;
+        margin-bottom: 24px;
+    }
+
+    .bottom-title h2 {
+        margin: 0;
+        color: #0f172a;
+        font-size: 27px;
+    }
+
+    .bottom-title p {
+        margin: 8px 0 0;
+        color: #64748b;
+    }
+
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .feature-card {
+        background: white;
+        border: 1px solid #dbeafe;
+        border-radius: 20px;
+        padding: 25px;
+        transition: 0.25s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 15px 35px rgba(30,64,175,0.10);
+    }
+
+    .feature-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        background: #eff6ff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 23px;
+        margin-bottom: 15px;
+    }
+
+    .feature-card h3 {
+        margin: 0 0 7px;
+        color: #0f172a;
+        font-size: 17px;
+    }
+
+    .feature-card p {
+        margin: 0;
+        color: #64748b;
+        line-height: 1.6;
+        font-size: 13px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+        .upload-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 650px) {
+        .upload-page {
+            padding: 35px 15px 50px;
+        }
+
+        .upload-hero h1 {
+            font-size: 32px;
+        }
+
+        .upload-card,
+        .info-card,
+        .results-card {
+            padding: 24px;
+        }
+
+        .stats-grid,
+        .amount-grid,
+        .feature-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="upload-page">
+
+    <div class="upload-container">
+
+        <!-- HERO -->
+        <section class="upload-hero">
+
+            <div class="upload-icon">
+                📂
+            </div>
+
+            <h1>
+                Upload <span>Transaction File</span>
+            </h1>
+
+            <p>
+                Upload your transaction dataset and let Fraud Intelligent
+                analyze thousands of transactions using the Random Forest
+                machine learning model.
+            </p>
+
+            <div class="hero-badges">
+                <div class="hero-badge">📄 CSV Support</div>
+                <div class="hero-badge">📊 Excel Support</div>
+                <div class="hero-badge">🌲 Random Forest</div>
+                <div class="hero-badge">⚡ Batch Analysis</div>
+            </div>
+
+        </section>
+
+
+        <!-- SUCCESS -->
+        {% if success %}
+
+        <div class="success-message">
+            <span>✅</span>
+            <span>File processed successfully!</span>
+        </div>
+
+        {% endif %}
+
+
+        <!-- ERROR -->
+        {% if error %}
+
+        <div class="error-message">
+            ⚠️ {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        <!-- UPLOAD AREA -->
+        <section class="upload-grid">
+
+            <!-- UPLOAD CARD -->
+            <div class="upload-card">
+
+                <div class="card-heading">
+
+                    <div class="heading-icon">
+                        📁
+                    </div>
+
+                    <div>
+                        <h2>Select Transaction File</h2>
+                        <p>
+                            Upload CSV or Excel transaction data.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <form method="POST"
+                      enctype="multipart/form-data"
+                      id="uploadForm">
+
+                    {% csrf_token %}
+
+                    <div class="drop-area" id="dropArea">
+
+                        <div class="drop-icon">
+                            ☁️
+                        </div>
+
+                        <h3>
+                            Choose your transaction file
+                        </h3>
+
+                        <p>
+                            Drag & drop your file here or click to browse
+                        </p>
+
+                        <label for="fileInput" class="choose-btn">
+                            📂 Choose File
+                        </label>
+
+                        <input
+                            type="file"
+                            id="fileInput"
+                            name="file"
+                            accept=".csv,.xlsx,.xls"
+                            required
+                        >
+
+                        <div class="selected-file" id="selectedFile">
+                            📄 No file selected
+                        </div>
+
+                    </div>
+
+
+                    <div class="file-types">
+
+                        <span class="file-type">
+                            CSV
+                        </span>
+
+                        <span class="file-type">
+                            XLSX
+                        </span>
+
+                        <span class="file-type">
+                            XLS
+                        </span>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="analyze-btn"
+                        id="analyzeButton">
+
+                        🚀 Analyze File
+
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- INFO CARD -->
+            <div class="info-card">
+
+                <h3>
+                    🤖 Batch Fraud Detection
+                </h3>
+
+                <div class="info-list">
+
+                    <div class="info-item">
+
+                        <div class="info-icon">
+                            📤
+                        </div>
+
+                        <div>
+                            <strong>Upload Dataset</strong>
+                            <span>
+                                Select your CSV or Excel transaction dataset.
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-icon">
+                            ⚙️
+                        </div>
+
+                        <div>
+                            <strong>Process Data</strong>
+                            <span>
+                                The system prepares the transaction features
+                                for machine learning analysis.
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-icon">
+                            🌲
+                        </div>
+
+                        <div>
+                            <strong>Random Forest Prediction</strong>
+                            <span>
+                                Each transaction is classified as Normal or
+                                potentially Fraudulent.
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-icon">
+                            📊
+                        </div>
+
+                        <div>
+                            <strong>View Results</strong>
+                            <span>
+                                Get total transactions, fraud count,
+                                fraud rate and transaction amounts.
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="supported-box">
+
+                    <div class="supported-title">
+                        📌 Supported Files
+                    </div>
+
+                    <p>
+                        CSV, XLSX and XLS files are supported for
+                        batch fraud detection.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RESULTS -->
+        {% if success %}
+
+        <section class="results-section">
+
+            <div class="results-card">
+
+                <div class="results-heading">
+
+                    <div class="results-heading-icon">
+                        📊
+                    </div>
+
+                    <h2>
+                        Analysis Results
+                    </h2>
+
+                    <p>
+                        Fraud detection results generated from your uploaded file.
+                    </p>
+
+                </div>
+
+
+                <!-- MAIN STATISTICS -->
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            📁
+                        </div>
+
+                        <span class="stat-label">
+                            File
+                        </span>
+
+                        <div class="stat-value"
+                             style="font-size:16px;">
+                            {{ filename }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            📄
+                        </div>
+
+                        <span class="stat-label">
+                            File Type
+                        </span>
+
+                        <div class="stat-value">
+                            {{ file_type }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            📊
+                        </div>
+
+                        <span class="stat-label">
+                            Total Transactions
+                        </span>
+
+                        <div class="stat-value">
+                            {{ total_transactions }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card fraud-stat">
+
+                        <div class="stat-icon">
+                            🚨
+                        </div>
+
+                        <span class="stat-label">
+                            Fraudulent
+                        </span>
+
+                        <div class="stat-value">
+                            {{ fraud_count }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card normal-stat">
+
+                        <div class="stat-icon">
+                            ✅
+                        </div>
+
+                        <span class="stat-label">
+                            Normal
+                        </span>
+
+                        <div class="stat-value">
+                            {{ normal_count }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card rate-stat">
+
+                        <div class="stat-icon">
+                            📈
+                        </div>
+
+                        <span class="stat-label">
+                            Fraud Rate
+                        </span>
+
+                        <div class="stat-value">
+                            {{ fraud_rate }}%
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- AMOUNTS -->
+                <div class="amount-grid">
+
+                    <div class="amount-card fraud-amount">
+
+                        <div class="amount-card-header">
+                            <span>🚨</span>
+                            <span>Fraud Amount</span>
+                        </div>
+
+                        <div class="amount-value">
+                            ₹{{ fraud_amount }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="amount-card">
+
+                        <div class="amount-card-header">
+                            <span>✅</span>
+                            <span>Normal Amount</span>
+                        </div>
+
+                        <div class="amount-value">
+                            ₹{{ normal_amount }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        {% endif %}
+
+
+        <!-- FEATURES -->
+        <section class="bottom-section">
+
+            <div class="bottom-title">
+
+                <h2>
+                    Powerful Batch Analysis
+                </h2>
+
+                <p>
+                    Analyze large transaction datasets quickly and efficiently.
+                </p>
+
+            </div>
+
+
+            <div class="feature-grid">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        ⚡
+                    </div>
+
+                    <h3>
+                        Fast Processing
+                    </h3>
+
+                    <p>
+                        Analyze thousands of transactions in a single upload
+                        instead of checking them one by one.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        🚨
+                    </div>
+
+                    <h3>
+                        Fraud Identification
+                    </h3>
+
+                    <p>
+                        Identify transactions that the Random Forest model
+                        classifies as potentially fraudulent.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        📈
+                    </div>
+
+                    <h3>
+                        Detailed Statistics
+                    </h3>
+
+                    <p>
+                        View transaction totals, fraud rate, normal transactions
+                        and transaction amounts.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const fileInput = document.getElementById("fileInput");
+    const dropArea = document.getElementById("dropArea");
+    const selectedFile = document.getElementById("selectedFile");
+    const uploadForm = document.getElementById("uploadForm");
+    const analyzeButton = document.getElementById("analyzeButton");
+
+
+    /* FILE SELECT */
+    fileInput.addEventListener("change", function () {
+
+        if (this.files.length > 0) {
+
+            const file = this.files[0];
+
+            selectedFile.textContent =
+                "📄 " + file.name;
+
+            selectedFile.classList.add("show");
+        }
+
+    });
+
+
+    /* CLICK DROP AREA */
+    dropArea.addEventListener("click", function (event) {
+
+        if (event.target.tagName !== "LABEL") {
+            fileInput.click();
+        }
+
+    });
+
+
+    /* DRAG OVER */
+    dropArea.addEventListener("dragover", function (event) {
+
+        event.preventDefault();
+
+        dropArea.classList.add("dragover");
+
+    });
+
+
+    /* DRAG LEAVE */
+    dropArea.addEventListener("dragleave", function () {
+
+        dropArea.classList.remove("dragover");
+
+    });
+
+
+    /* DROP */
+    dropArea.addEventListener("drop", function (event) {
+
+        event.preventDefault();
+
+        dropArea.classList.remove("dragover");
+
+        const files = event.dataTransfer.files;
+
+        if (files.length > 0) {
+
+            fileInput.files = files;
+
+            const file = files[0];
+
+            selectedFile.textContent =
+                "📄 " + file.name;
+
+            selectedFile.classList.add("show");
+
+        }
+
+    });
+
+
+    /* SUBMIT */
+    uploadForm.addEventListener("submit", function () {
+
+        analyzeButton.innerHTML =
+            "⏳ Analyzing File...";
+
+        analyzeButton.style.opacity = "0.8";
+
+        analyzeButton.style.pointerEvents = "none";
+
+    });
+
+</script>
+
+{% endblock %}

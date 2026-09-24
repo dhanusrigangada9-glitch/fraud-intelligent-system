@@ -1,0 +1,3647 @@
+{% extends "base.html" %}
+
+{% block title %}
+Fraud Intelligent | Analytics Dashboard
+{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+/* ============================================================
+   DASHBOARD PAGE
+============================================================ */
+
+.dashboard-page {
+    padding: 35px 40px 50px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+
+/* ============================================================
+   HERO
+============================================================ */
+
+.dashboard-hero {
+
+    background:
+        linear-gradient(
+            135deg,
+            #eff6ff 0%,
+            #ffffff 55%,
+            #f0f9ff 100%
+        );
+
+    border: 1px solid #dbeafe;
+    border-radius: 24px;
+    padding: 32px;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+
+    box-shadow:
+        0 10px 35px
+        rgba(30, 64, 175, 0.07);
+
+    animation: fadeUp 0.6s ease;
+}
+
+
+.dashboard-hero::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(37, 99, 235, 0.06);
+
+    right: -70px;
+    top: -90px;
+}
+
+
+.dashboard-hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+
+.dashboard-badge {
+
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 7px 13px;
+
+    background: #dbeafe;
+    color: #1d4ed8;
+
+    border-radius: 30px;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: 0.4px;
+    margin-bottom: 12px;
+}
+
+
+.dashboard-title {
+
+    margin: 0;
+
+    font-size: 31px;
+    line-height: 1.2;
+
+    font-weight: 850;
+
+    color: #0f2a5f;
+
+    letter-spacing: -0.7px;
+}
+
+
+.dashboard-subtitle {
+
+    margin: 10px 0 0;
+
+    max-width: 850px;
+
+    font-size: 14px;
+    line-height: 1.7;
+
+    color: #64748b;
+}
+
+
+.hero-model {
+
+    display: inline-block;
+
+    margin-top: 15px;
+
+    padding: 7px 12px;
+
+    background: #ffffff;
+
+    border: 1px solid #bfdbfe;
+
+    border-radius: 9px;
+
+    color: #2563eb;
+
+    font-size: 11px;
+    font-weight: 800;
+}
+
+
+/* ============================================================
+   SECTION HEADINGS
+============================================================ */
+
+.dashboard-section {
+
+    margin-top: 34px;
+
+    animation: fadeUp 0.7s ease;
+}
+
+
+.section-heading {
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 17px;
+}
+
+
+.section-icon {
+
+    width: 39px;
+    height: 39px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: #eff6ff;
+
+    border: 1px solid #dbeafe;
+
+    font-size: 18px;
+}
+
+
+.section-title {
+
+    margin: 0;
+
+    color: #173b73;
+
+    font-size: 19px;
+
+    font-weight: 850;
+
+    letter-spacing: -0.25px;
+}
+
+
+.section-description {
+
+    margin: 2px 0 0;
+
+    color: #94a3b8;
+
+    font-size: 11px;
+
+    font-weight: 500;
+}
+
+
+/* ============================================================
+   STAT CARDS
+============================================================ */
+
+.stats-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 17px;
+}
+
+
+.stat-card {
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 18px;
+
+    padding: 21px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 8px 25px
+        rgba(15, 23, 42, 0.045);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+    animation:
+        cardAppear 0.6s ease both;
+}
+
+
+.stat-card:hover {
+
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 15px 35px
+        rgba(15, 23, 42, 0.09);
+}
+
+
+.stat-card:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+
+.stat-card:nth-child(2) {
+    animation-delay: 0.10s;
+}
+
+
+.stat-card:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+
+.stat-card:nth-child(4) {
+    animation-delay: 0.20s;
+}
+
+
+.stat-top {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 16px;
+}
+
+
+.stat-icon {
+
+    width: 40px;
+    height: 40px;
+
+    border-radius: 11px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 18px;
+
+    background: #eff6ff;
+
+    border: 1px solid #dbeafe;
+}
+
+
+.stat-label {
+
+    color: #64748b;
+
+    font-size: 11px;
+
+    font-weight: 750;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.45px;
+}
+
+
+.stat-value {
+
+    font-size: 27px;
+
+    font-weight: 850;
+
+    line-height: 1.1;
+
+    color: #0f2a5f;
+
+    letter-spacing: -0.7px;
+}
+
+
+.stat-subtitle {
+
+    margin-top: 7px;
+
+    color: #94a3b8;
+
+    font-size: 10px;
+}
+
+
+.stat-card.fraud .stat-icon {
+
+    background: #fff1f2;
+
+    border-color: #fecdd3;
+}
+
+
+.stat-card.fraud .stat-value {
+
+    color: #dc2626;
+}
+
+
+.stat-card.normal .stat-icon {
+
+    background: #ecfdf5;
+
+    border-color: #bbf7d0;
+}
+
+
+.stat-card.normal .stat-value {
+
+    color: #15803d;
+}
+
+
+.stat-card.rate .stat-icon {
+
+    background: #fff7ed;
+
+    border-color: #fed7aa;
+}
+
+
+.stat-card.rate .stat-value {
+
+    color: #ea580c;
+}
+
+
+/* ============================================================
+   AMOUNT CARDS
+============================================================ */
+
+.amount-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 17px;
+}
+
+
+.amount-card {
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 18px;
+
+    padding: 21px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(15, 23, 42, 0.045);
+
+    transition:
+        transform 0.25s ease;
+}
+
+
+.amount-card:hover {
+
+    transform: translateY(-4px);
+}
+
+
+.amount-label {
+
+    color: #64748b;
+
+    font-size: 11px;
+
+    font-weight: 750;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.4px;
+}
+
+
+.amount-value {
+
+    margin-top: 10px;
+
+    color: #17437e;
+
+    font-size: 24px;
+
+    font-weight: 850;
+
+    letter-spacing: -0.5px;
+}
+
+
+.amount-card.fraud-amount .amount-value {
+
+    color: #dc2626;
+}
+
+
+.amount-card.average .amount-value {
+
+    color: #2563eb;
+}
+
+
+.amount-description {
+
+    margin-top: 6px;
+
+    color: #94a3b8;
+
+    font-size: 10px;
+}
+
+
+/* ============================================================
+   CHART GRID
+============================================================ */
+
+.chart-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+
+.chart-card {
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 19px;
+
+    padding: 21px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(15, 23, 42, 0.045);
+
+    min-width: 0;
+}
+
+
+.chart-card.full-width {
+
+    grid-column: 1 / -1;
+}
+
+
+.chart-header {
+
+    margin-bottom: 16px;
+}
+
+
+.chart-title {
+
+    margin: 0;
+
+    color: #214d86;
+
+    font-size: 15px;
+
+    font-weight: 850;
+}
+
+
+.chart-description {
+
+    margin: 5px 0 0;
+
+    color: #94a3b8;
+
+    font-size: 10px;
+
+    line-height: 1.5;
+}
+
+
+.chart-container {
+
+    position: relative;
+
+    height: 310px;
+
+    width: 100%;
+}
+
+
+.chart-container.large {
+
+    height: 360px;
+}
+
+
+/* ============================================================
+   FRAUD VS NORMAL INFORMATION
+============================================================ */
+
+.fraud-chart-summary {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 25px;
+
+    margin-top: 8px;
+
+    padding: 8px;
+
+    border-radius: 10px;
+
+    background: #f8fafc;
+
+    font-size: 10px;
+
+    font-weight: 800;
+}
+
+
+.fraud-chart-normal {
+
+    color: #15803d;
+}
+
+
+.fraud-chart-fraud {
+
+    color: #dc2626;
+}
+
+
+/* ============================================================
+   PEAK HOUR
+============================================================ */
+
+.peak-box {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-top: 10px;
+
+    padding: 6px 10px;
+
+    background: #fff7ed;
+
+    border: 1px solid #fed7aa;
+
+    border-radius: 8px;
+
+    color: #c2410c;
+
+    font-size: 10px;
+
+    font-weight: 800;
+}
+
+
+/* ============================================================
+   MODEL METRICS
+============================================================ */
+
+.metrics-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 17px;
+}
+
+
+.metric-card {
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 17px;
+
+    padding: 19px;
+
+    text-align: center;
+
+    box-shadow:
+        0 8px 25px
+        rgba(15, 23, 42, 0.045);
+
+    transition:
+        transform 0.25s ease;
+}
+
+
+.metric-card:hover {
+
+    transform: translateY(-4px);
+}
+
+
+.metric-name {
+
+    color: #64748b;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+}
+
+
+.metric-value {
+
+    margin-top: 9px;
+
+    font-size: 27px;
+
+    font-weight: 900;
+
+    color: #2563eb;
+}
+
+
+.metric-description {
+
+    margin-top: 5px;
+
+    color: #94a3b8;
+
+    font-size: 9px;
+}
+
+
+/* ============================================================
+   CONFUSION MATRIX
+============================================================ */
+
+.matrix-wrapper {
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 19px;
+
+    padding: 23px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(15, 23, 42, 0.045);
+
+    overflow-x: auto;
+}
+
+
+.matrix-table {
+
+    width: 100%;
+
+    border-collapse: separate;
+
+    border-spacing: 8px;
+
+    min-width: 620px;
+}
+
+
+.matrix-table th {
+
+    padding: 12px;
+
+    background: #f8fafc;
+
+    color: #475569;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    text-align: center;
+
+    border-radius: 9px;
+}
+
+
+.matrix-table td {
+
+    padding: 20px 15px;
+
+    text-align: center;
+
+    border-radius: 12px;
+
+    font-size: 22px;
+
+    font-weight: 900;
+}
+
+
+.matrix-label {
+
+    background: #f8fafc;
+
+    color: #475569;
+
+    font-size: 11px !important;
+
+    font-weight: 800 !important;
+}
+
+
+.tn-cell {
+
+    background: #ecfdf5;
+
+    color: #15803d;
+
+    border: 1px solid #bbf7d0;
+}
+
+
+.fp-cell {
+
+    background: #fff7ed;
+
+    color: #c2410c;
+
+    border: 1px solid #fed7aa;
+}
+
+
+.fn-cell {
+
+    background: #fff1f2;
+
+    color: #dc2626;
+
+    border: 1px solid #fecdd3;
+}
+
+
+.tp-cell {
+
+    background: #eff6ff;
+
+    color: #1d4ed8;
+
+    border: 1px solid #bfdbfe;
+}
+
+
+.matrix-key {
+
+    margin-top: 16px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 10px;
+}
+
+
+.key-item {
+
+    padding: 11px;
+
+    border-radius: 9px;
+
+    background: #f8fafc;
+
+    color: #64748b;
+
+    font-size: 10px;
+
+    text-align: center;
+}
+
+
+.key-item strong {
+
+    color: #334155;
+
+    display: block;
+
+    margin-bottom: 3px;
+
+    font-size: 11px;
+}
+
+
+/* ============================================================
+   MODEL INFO
+============================================================ */
+
+.model-info {
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8fbff,
+            #ffffff
+        );
+
+    border: 1px solid #dbeafe;
+
+    border-radius: 19px;
+
+    padding: 24px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(15, 23, 42, 0.04);
+}
+
+
+.model-info-title {
+
+    margin: 0;
+
+    color: #173b73;
+
+    font-size: 17px;
+
+    font-weight: 850;
+}
+
+
+.model-info-text {
+
+    margin: 10px 0 0;
+
+    color: #64748b;
+
+    font-size: 12px;
+
+    line-height: 1.75;
+
+    max-width: 1000px;
+}
+
+
+.model-tags {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin-top: 16px;
+}
+
+
+.model-tag {
+
+    padding: 7px 11px;
+
+    background: #eff6ff;
+
+    border: 1px solid #dbeafe;
+
+    border-radius: 8px;
+
+    color: #2563eb;
+
+    font-size: 10px;
+
+    font-weight: 750;
+}
+
+
+/* ============================================================
+   ANIMATIONS
+============================================================ */
+
+@keyframes fadeUp {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(15px);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+@keyframes cardAppear {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(18px)
+            scale(0.98);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 1100px) {
+
+    .stats-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+
+    .metrics-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 850px) {
+
+    .dashboard-page {
+
+        padding:
+            25px 18px 40px;
+    }
+
+
+    .dashboard-title {
+
+        font-size: 26px;
+    }
+
+
+    .chart-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .chart-card.full-width {
+
+        grid-column: auto;
+    }
+
+
+    .amount-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .stats-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .metrics-grid {
+
+        grid-template-columns: 1fr 1fr;
+    }
+
+
+    .dashboard-hero {
+
+        padding: 24px;
+    }
+
+
+    .dashboard-title {
+
+        font-size: 23px;
+    }
+
+
+    .chart-container {
+
+        height: 270px;
+    }
+
+
+    .chart-container.large {
+
+        height: 300px;
+    }
+
+
+    .matrix-key {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="dashboard-page">
+
+
+<!-- ========================================================
+     HERO
+========================================================= -->
+
+<section class="dashboard-hero">
+
+    <div class="dashboard-hero-content">
+
+        <div class="dashboard-badge">
+
+            🛡️
+
+            Random Forest
+
+            <span>•</span>
+
+            Live Dataset Analysis
+
+        </div>
+
+
+        <h1 class="dashboard-title">
+
+            Fraud Detection Analytics Dashboard
+
+        </h1>
+
+
+        <p class="dashboard-subtitle">
+
+            Monitor transaction activity, identify fraud patterns,
+            analyze hourly behavior, and evaluate the performance
+            of the machine learning fraud detection model.
+
+        </p>
+
+
+        <div class="hero-model">
+
+            🤖 Machine Learning • Random Forest Classifier
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     TRANSACTION SUMMARY
+========================================================= -->
+
+<section class="dashboard-section">
+
+    <div class="section-heading">
+
+        <div class="section-icon">
+            📊
+        </div>
+
+        <div>
+
+            <h2 class="section-title">
+                Transaction Summary
+            </h2>
+
+            <p class="section-description">
+                Overall transaction and fraud statistics
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="stats-grid">
+
+
+        <!-- TOTAL -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-label">
+                    Total Transactions
+                </div>
+
+                <div class="stat-icon">
+                    💳
+                </div>
+
+            </div>
+
+
+            <div class="stat-value">
+
+                {{ total_transactions|default:"0" }}
+
+            </div>
+
+
+            <div class="stat-subtitle">
+                Transactions analyzed
+            </div>
+
+        </div>
+
+
+
+        <!-- FRAUD -->
+
+        <div class="stat-card fraud">
+
+            <div class="stat-top">
+
+                <div class="stat-label">
+                    Fraudulent Transactions
+                </div>
+
+                <div class="stat-icon">
+                    🚨
+                </div>
+
+            </div>
+
+
+            <div class="stat-value">
+
+                {{ fraudulent_transactions|default:"0" }}
+
+            </div>
+
+
+            <div class="stat-subtitle">
+                Model predicted fraud records
+            </div>
+
+        </div>
+
+
+
+        <!-- NORMAL -->
+
+        <div class="stat-card normal">
+
+            <div class="stat-top">
+
+                <div class="stat-label">
+                    Normal Transactions
+                </div>
+
+                <div class="stat-icon">
+                    ✅
+                </div>
+
+            </div>
+
+
+            <div class="stat-value">
+
+                {{ normal_transactions|default:"0" }}
+
+            </div>
+
+
+            <div class="stat-subtitle">
+                Model predicted normal transactions
+            </div>
+
+        </div>
+
+
+
+        <!-- RATE -->
+
+        <div class="stat-card rate">
+
+            <div class="stat-top">
+
+                <div class="stat-label">
+                    Fraud Rate
+                </div>
+
+                <div class="stat-icon">
+                    📈
+                </div>
+
+            </div>
+
+
+            <div class="stat-value">
+
+                {{ fraud_rate|default:"0" }}%
+
+            </div>
+
+
+            <div class="stat-subtitle">
+                Percentage of transactions
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     TRANSACTION AMOUNT ANALYSIS
+========================================================= -->
+
+<section class="dashboard-section">
+
+    <div class="section-heading">
+
+        <div class="section-icon">
+            💰
+        </div>
+
+        <div>
+
+            <h2 class="section-title">
+                Transaction Amount Analysis
+            </h2>
+
+            <p class="section-description">
+                Financial distribution across the dataset
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="amount-grid">
+
+
+        <div class="amount-card">
+
+            <div class="amount-label">
+                Total Transaction Amount
+            </div>
+
+            <div class="amount-value">
+
+                ₹{{ total_amount|default:"0" }}
+
+            </div>
+
+            <div class="amount-description">
+                Combined value of all transactions
+            </div>
+
+        </div>
+
+
+
+        <div class="amount-card fraud-amount">
+
+            <div class="amount-label">
+                Fraud Transaction Amount
+            </div>
+
+            <div class="amount-value">
+
+                ₹{{ fraud_amount|default:"0" }}
+
+            </div>
+
+            <div class="amount-description">
+                Combined value of predicted fraudulent transactions
+            </div>
+
+        </div>
+
+
+
+        <div class="amount-card average">
+
+            <div class="amount-label">
+                Average Transaction Amount
+            </div>
+
+            <div class="amount-value">
+
+                ₹{{ average_transaction_amount|default:"0" }}
+
+            </div>
+
+            <div class="amount-description">
+                Average amount per transaction
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     FRAUD ANALYTICS
+========================================================= -->
+
+<section class="dashboard-section">
+
+    <div class="section-heading">
+
+        <div class="section-icon">
+            📈
+        </div>
+
+        <div>
+
+            <h2 class="section-title">
+                Fraud Analytics
+            </h2>
+
+            <p class="section-description">
+                Visual analysis of fraud distribution and activity
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="chart-grid">
+
+
+        <!-- =================================================
+             FRAUD VS NORMAL
+        ================================================== -->
+
+        <div class="chart-card">
+
+            <div class="chart-header">
+
+                <h3 class="chart-title">
+                    ⚖️ Fraud vs Normal Transactions
+                </h3>
+
+                <p class="chart-description">
+                    Model-predicted normal and fraudulent transaction counts
+                </p>
+
+            </div>
+
+
+            <div class="chart-container">
+
+                <canvas id="fraudNormalChart"></canvas>
+
+            </div>
+
+
+            <div class="fraud-chart-summary">
+
+                <span class="fraud-chart-normal">
+
+                    ● Normal:
+                    {{ normal_transactions|default:"0" }}
+
+                </span>
+
+
+                <span class="fraud-chart-fraud">
+
+                    ● Fraud:
+                    {{ fraudulent_transactions|default:"0" }}
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             FRAUD BY HOUR
+        ================================================== -->
+
+        <div class="chart-card">
+
+            <div class="chart-header">
+
+                <h3 class="chart-title">
+                    🕐 Fraud Activity by Hour
+                </h3>
+
+                <p class="chart-description">
+                    Number of fraudulent transactions across 24 hourly periods
+                </p>
+
+
+                <div class="peak-box">
+
+                    🔥 Peak Fraud Hour:
+
+                    <span id="peakHour">
+                        Calculating...
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="chart-container">
+
+                <canvas id="fraudHourChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             AVERAGE AMOUNT
+        ================================================== -->
+
+        <div class="chart-card">
+
+            <div class="chart-header">
+
+                <h3 class="chart-title">
+                    💵 Average Amount Comparison
+                </h3>
+
+                <p class="chart-description">
+                    Average transaction amount for normal and fraudulent transactions
+                </p>
+
+            </div>
+
+
+            <div class="chart-container">
+
+                <canvas id="averageAmountChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             MODEL PERFORMANCE
+        ================================================== -->
+
+        <div class="chart-card">
+
+            <div class="chart-header">
+
+                <h3 class="chart-title">
+                    🤖 Model Performance
+                </h3>
+
+                <p class="chart-description">
+                    Performance metrics of the Random Forest classifier
+                </p>
+
+            </div>
+
+
+            <div class="chart-container">
+
+                <canvas id="modelPerformanceChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             24-HOUR COMPARISON
+        ================================================== -->
+
+        <div class="chart-card full-width">
+
+            <div class="chart-header">
+
+                <h3 class="chart-title">
+                    📊 Normal vs Fraud Transactions — 24-Hour Comparison
+                </h3>
+
+                <p class="chart-description">
+                    Compare normal and fraudulent transaction activity for each hourly bucket
+                </p>
+
+            </div>
+
+
+            <div class="chart-container large">
+
+                <canvas id="hourComparisonChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     DETECTION PERFORMANCE
+========================================================= -->
+
+<section class="dashboard-section">
+
+    <div class="section-heading">
+
+        <div class="section-icon">
+            🎯
+        </div>
+
+        <div>
+
+            <h2 class="section-title">
+                Detection Performance Metrics
+            </h2>
+
+            <p class="section-description">
+                Key evaluation metrics for the fraud detection model
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="metrics-grid">
+
+
+        <div class="metric-card">
+
+            <div class="metric-name">
+                Accuracy
+            </div>
+
+            <div class="metric-value">
+                {{ accuracy|default:"0" }}%
+            </div>
+
+            <div class="metric-description">
+                Overall correct predictions
+            </div>
+
+        </div>
+
+
+
+        <div class="metric-card">
+
+            <div class="metric-name">
+                Precision
+            </div>
+
+            <div class="metric-value">
+                {{ precision|default:"0" }}%
+            </div>
+
+            <div class="metric-description">
+                Correct fraud predictions
+            </div>
+
+        </div>
+
+
+
+        <div class="metric-card">
+
+            <div class="metric-name">
+                Recall
+            </div>
+
+            <div class="metric-value">
+                {{ recall|default:"0" }}%
+            </div>
+
+            <div class="metric-description">
+                Fraud cases identified
+            </div>
+
+        </div>
+
+
+
+        <div class="metric-card">
+
+            <div class="metric-name">
+                F1 Score
+            </div>
+
+            <div class="metric-value">
+                {{ f1_score|default:"0" }}%
+            </div>
+
+            <div class="metric-description">
+                Precision-recall balance
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     CLASSIFICATION RESULTS
+========================================================= -->
+
+<section class="dashboard-section">
+
+    <div class="section-heading">
+
+        <div class="section-icon">
+            🔍
+        </div>
+
+        <div>
+
+            <h2 class="section-title">
+                Classification Results
+            </h2>
+
+            <p class="section-description">
+                Confusion matrix showing how the Random Forest model classified normal and fraudulent transactions
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="matrix-wrapper">
+
+
+        <table class="matrix-table">
+
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Actual \ Predicted
+                    </th>
+
+                    <th>
+                        Normal
+                    </th>
+
+                    <th>
+                        Fraud
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+                <!-- NORMAL ROW -->
+
+                <tr>
+
+                    <td class="matrix-label">
+                        Normal
+                    </td>
+
+
+                    <!-- TRUE NEGATIVE -->
+
+                    <td class="tn-cell">
+
+                        {{ tn|default:"0" }}
+
+                        <div style="
+                            font-size:9px;
+                            font-weight:700;
+                            margin-top:5px;
+                        ">
+                            TRUE NEGATIVE
+                        </div>
+
+                        <div style="
+                            font-size:8px;
+                            margin-top:3px;
+                            opacity:0.8;
+                        ">
+                            Normal → Normal
+                        </div>
+
+                    </td>
+
+
+                    <!-- FALSE POSITIVE -->
+
+                    <td class="fp-cell">
+
+                        {{ fp|default:"0" }}
+
+                        <div style="
+                            font-size:9px;
+                            font-weight:700;
+                            margin-top:5px;
+                        ">
+                            FALSE POSITIVE
+                        </div>
+
+                        <div style="
+                            font-size:8px;
+                            margin-top:3px;
+                            opacity:0.8;
+                        ">
+                            Normal → Fraud
+                        </div>
+
+                    </td>
+
+                </tr>
+
+
+
+                <!-- FRAUD ROW -->
+
+                <tr>
+
+                    <td class="matrix-label">
+                        Fraud
+                    </td>
+
+
+                    <!-- FALSE NEGATIVE -->
+
+                    <td class="fn-cell">
+
+                        {{ fn|default:"0" }}
+
+                        <div style="
+                            font-size:9px;
+                            font-weight:700;
+                            margin-top:5px;
+                        ">
+                            FALSE NEGATIVE
+                        </div>
+
+                        <div style="
+                            font-size:8px;
+                            margin-top:3px;
+                            opacity:0.8;
+                        ">
+                            Fraud → Normal
+                        </div>
+
+                    </td>
+
+
+                    <!-- TRUE POSITIVE -->
+
+                    <td class="tp-cell">
+
+                        {{ tp|default:"0" }}
+
+                        <div style="
+                            font-size:9px;
+                            font-weight:700;
+                            margin-top:5px;
+                        ">
+                            TRUE POSITIVE
+                        </div>
+
+                        <div style="
+                            font-size:8px;
+                            margin-top:3px;
+                            opacity:0.8;
+                        ">
+                            Fraud → Fraud
+                        </div>
+
+                    </td>
+
+                </tr>
+
+
+            </tbody>
+
+        </table>
+
+
+
+        <!-- =================================================
+             CLASSIFICATION KEY
+        ================================================== -->
+
+        <div class="matrix-key">
+
+
+            <div class="key-item">
+
+                <strong>TN</strong>
+
+                Normal correctly identified
+
+            </div>
+
+
+            <div class="key-item">
+
+                <strong>FP</strong>
+
+                Normal incorrectly classified as fraud
+
+            </div>
+
+
+            <div class="key-item">
+
+                <strong>FN</strong>
+
+                Fraud incorrectly classified as normal
+
+            </div>
+
+
+            <div class="key-item">
+
+                <strong>TP</strong>
+
+                Fraud correctly identified
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     ABOUT MODEL
+========================================================= -->
+
+<section class="dashboard-section">
+
+    <div class="section-heading">
+
+        <div class="section-icon">
+            🧠
+        </div>
+
+        <div>
+
+            <h2 class="section-title">
+                About Fraud Detection Model
+            </h2>
+
+            <p class="section-description">
+                Machine learning approach used by Fraud Intelligent
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="model-info">
+
+
+        <h3 class="model-info-title">
+
+            🤖 Random Forest Classifier
+
+        </h3>
+
+
+        <p class="model-info-text">
+
+            Fraud Intelligent uses a Random Forest machine learning
+            classifier to analyze transaction characteristics and
+            identify potentially fraudulent activity. The system
+            evaluates transaction features, generates predictions,
+            calculates fraud probability, and assigns a risk level
+            to help users understand suspicious transactions.
+
+        </p>
+
+
+        <div class="model-tags">
+
+            <span class="model-tag">
+                Random Forest
+            </span>
+
+            <span class="model-tag">
+                Fraud Detection
+            </span>
+
+            <span class="model-tag">
+                Probability Analysis
+            </span>
+
+            <span class="model-tag">
+                Risk Assessment
+            </span>
+
+            <span class="model-tag">
+                24-Hour Analytics
+            </span>
+
+            <span class="model-tag">
+                Batch Prediction
+            </span>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+</div>
+
+
+<!-- ==========================================================
+     DJANGO JSON DATA
+=========================================================== -->
+
+{{ hourly_labels|json_script:"hourly-labels-data" }}
+
+{{ hourly_normal_counts|json_script:"hourly-normal-data" }}
+
+{{ hourly_fraud_counts|json_script:"hourly-fraud-data" }}
+
+
+{% endblock %}
+
+
+
+{% block extra_js %}
+
+<script
+    src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js">
+</script>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        /* =====================================================
+           SAFE NUMBER
+        ===================================================== */
+
+        function numberValue(value) {
+
+            if (
+                value === null ||
+                value === undefined ||
+                value === ""
+            ) {
+
+                return 0;
+
+            }
+
+
+            const number =
+                Number(
+                    String(value)
+                    .replace(/,/g, "")
+                    .replace("%", "")
+                    .trim()
+                );
+
+
+            return Number.isFinite(number)
+                ? number
+                : 0;
+
+        }
+
+
+
+        /* =====================================================
+           FORCE EXACTLY 24 NUMERIC VALUES
+        ===================================================== */
+
+        function normalize24(values) {
+
+            const result =
+                Array(24).fill(0);
+
+
+            if (!Array.isArray(values)) {
+
+                return result;
+
+            }
+
+
+            for (
+                let i = 0;
+                i < 24;
+                i++
+            ) {
+
+                result[i] =
+                    numberValue(
+                        values[i]
+                    );
+
+            }
+
+
+            return result;
+
+        }
+
+
+
+        /* =====================================================
+           DJANGO HOURLY DATA
+        ===================================================== */
+
+        let hourlyLabels = [];
+
+        let hourlyNormalCounts = [];
+
+        let hourlyFraudCounts = [];
+
+
+        try {
+
+            const labelsElement =
+                document.getElementById(
+                    "hourly-labels-data"
+                );
+
+
+            const normalElement =
+                document.getElementById(
+                    "hourly-normal-data"
+                );
+
+
+            const fraudElement =
+                document.getElementById(
+                    "hourly-fraud-data"
+                );
+
+
+            if (labelsElement) {
+
+                hourlyLabels =
+                    JSON.parse(
+                        labelsElement.textContent
+                    );
+
+            }
+
+
+            if (normalElement) {
+
+                hourlyNormalCounts =
+                    JSON.parse(
+                        normalElement.textContent
+                    );
+
+            }
+
+
+            if (fraudElement) {
+
+                hourlyFraudCounts =
+                    JSON.parse(
+                        fraudElement.textContent
+                    );
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Unable to load hourly dashboard data:",
+                error
+            );
+
+        }
+
+
+
+        /* =====================================================
+           EXACT 24-HOUR NUMERIC INDEX
+        ===================================================== */
+
+        hourlyLabels =
+            Array.from(
+                { length: 24 },
+                (_, index) => index
+            );
+
+
+
+        /* =====================================================
+           NORMALIZE DATA
+        ===================================================== */
+
+        hourlyNormalCounts =
+            normalize24(
+                hourlyNormalCounts
+            );
+
+
+        hourlyFraudCounts =
+            normalize24(
+                hourlyFraudCounts
+            );
+
+
+
+        /* =====================================================
+           DISPLAY HOURS
+        ===================================================== */
+
+        const displayHours =
+            Array.from(
+                { length: 24 },
+                (_, hour) =>
+                    String(hour).padStart(2, "0")
+                    + ":00"
+            );
+
+
+
+        /* =====================================================
+           DEBUG
+        ===================================================== */
+
+        console.log(
+            "24-Hour Labels:",
+            displayHours
+        );
+
+
+        console.log(
+            "Normal 24-hour data:",
+            hourlyNormalCounts
+        );
+
+
+        console.log(
+            "Fraud 24-hour data:",
+            hourlyFraudCounts
+        );
+
+
+
+        /* =====================================================
+           PEAK FRAUD HOUR
+        ===================================================== */
+
+        let peakIndex = 0;
+
+        let peakValue = 0;
+
+
+        hourlyFraudCounts.forEach(
+            function (value, index) {
+
+                const fraudCount =
+                    numberValue(value);
+
+
+                if (
+                    fraudCount > peakValue
+                ) {
+
+                    peakValue =
+                        fraudCount;
+
+                    peakIndex =
+                        index;
+
+                }
+
+            }
+        );
+
+
+        const peakHourElement =
+            document.getElementById(
+                "peakHour"
+            );
+
+
+        if (peakHourElement) {
+
+            peakHourElement.textContent =
+                displayHours[peakIndex]
+                + " ("
+                + peakValue
+                + " transactions)";
+
+        }
+
+
+
+        /* =====================================================
+           COMMON CHART OPTIONS
+        ===================================================== */
+
+        const commonOptions = {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            animation: {
+
+                duration: 900,
+
+                easing: "easeOutQuart"
+
+            },
+
+            plugins: {
+
+                legend: {
+
+                    labels: {
+
+                        font: {
+
+                            size: 11,
+
+                            weight: "600"
+
+                        },
+
+                        padding: 15
+
+                    }
+
+                }
+
+            },
+
+            scales: {
+
+                x: {
+
+                    grid: {
+
+                        color:
+                            "rgba(148,163,184,0.10)"
+
+                    },
+
+                    ticks: {
+
+                        color: "#64748b",
+
+                        font: {
+
+                            size: 10
+
+                        }
+
+                    }
+
+                },
+
+                y: {
+
+                    beginAtZero: true,
+
+                    grid: {
+
+                        color:
+                            "rgba(148,163,184,0.12)"
+
+                    },
+
+                    ticks: {
+
+                        color: "#64748b",
+
+                        font: {
+
+                            size: 10
+
+                        },
+
+                        precision: 0
+
+                    }
+
+                }
+
+            }
+
+        };
+
+
+
+        /* =====================================================
+           FRAUD VS NORMAL BAR CHART
+           
+           IMPORTANT:
+           Uses REAL model-predicted counts.
+
+           Normal = 284321
+           Fraud  = 486
+
+           Horizontal bar is used instead of doughnut
+           because the fraud percentage is only 0.17%.
+        ===================================================== */
+
+        const fraudNormalCanvas =
+            document.getElementById(
+                "fraudNormalChart"
+            );
+
+
+        if (fraudNormalCanvas) {
+
+
+            const normalTotal =
+                numberValue(
+                    "{{ normal_transactions|default:'0' }}"
+                );
+
+
+            const fraudTotal =
+                numberValue(
+                    "{{ fraudulent_transactions|default:'0' }}"
+                );
+
+
+            const total =
+                normalTotal + fraudTotal;
+
+
+            console.log(
+                "Fraud vs Normal:"
+            );
+
+
+            console.log(
+                "Normal:",
+                normalTotal
+            );
+
+
+            console.log(
+                "Fraud:",
+                fraudTotal
+            );
+
+
+            console.log(
+                "Total:",
+                total
+            );
+
+
+            new Chart(
+                fraudNormalCanvas,
+                {
+
+                    type: "bar",
+
+
+                    data: {
+
+                        labels: [
+
+                            "Normal Transactions",
+
+                            "Fraudulent Transactions"
+
+                        ],
+
+
+                        datasets: [{
+
+                            label:
+                                "Transaction Count",
+
+
+                            data: [
+
+                                normalTotal,
+
+                                fraudTotal
+
+                            ],
+
+
+                            backgroundColor: [
+
+                                "#22c55e",
+
+                                "#ef4444"
+
+                            ],
+
+
+                            borderColor: [
+
+                                "#16a34a",
+
+                                "#dc2626"
+
+                            ],
+
+
+                            borderWidth: 1,
+
+
+                            borderRadius: 8,
+
+
+                            borderSkipped: false,
+
+
+                            barThickness: 42,
+
+
+                            maxBarThickness: 50
+
+                        }]
+
+                    },
+
+
+                    options: {
+
+                        indexAxis: "y",
+
+
+                        responsive: true,
+
+                        maintainAspectRatio: false,
+
+
+                        animation: {
+
+                            duration: 1200,
+
+                            easing:
+                                "easeOutQuart"
+
+                        },
+
+
+                        scales: {
+
+                            x: {
+
+                                beginAtZero: true,
+
+
+                                grid: {
+
+                                    color:
+                                        "rgba(148,163,184,0.12)"
+
+                                },
+
+
+                                ticks: {
+
+                                    color:
+                                        "#64748b",
+
+                                    precision: 0,
+
+                                    font: {
+
+                                        size: 10
+
+                                    },
+
+
+                                    callback:
+                                        function(value) {
+
+                                            return Number(
+                                                value
+                                            ).toLocaleString();
+
+                                        }
+
+                                },
+
+
+                                title: {
+
+                                    display: true,
+
+                                    text:
+                                        "Number of Transactions",
+
+                                    color:
+                                        "#475569",
+
+                                    font: {
+
+                                        size: 11,
+
+                                        weight: "700"
+
+                                    }
+
+                                }
+
+                            },
+
+
+                            y: {
+
+                                grid: {
+
+                                    display: false
+
+                                },
+
+
+                                ticks: {
+
+                                    color:
+                                        "#475569",
+
+                                    font: {
+
+                                        size: 11,
+
+                                        weight: "700"
+
+                                    }
+
+                                }
+
+                            }
+
+                        },
+
+
+                        plugins: {
+
+                            legend: {
+
+                                display: false
+
+                            },
+
+
+                            tooltip: {
+
+                                backgroundColor:
+                                    "#0f172a",
+
+                                titleColor:
+                                    "#ffffff",
+
+                                bodyColor:
+                                    "#e2e8f0",
+
+                                padding: 12,
+
+                                cornerRadius: 8,
+
+
+                                callbacks: {
+
+                                    label:
+                                        function(context) {
+
+                                            const value =
+                                                numberValue(
+                                                    context.raw
+                                                );
+
+
+                                            const percentage =
+                                                total > 0
+                                                    ? (
+                                                        value /
+                                                        total *
+                                                        100
+                                                    ).toFixed(2)
+                                                    : "0.00";
+
+
+                                            return [
+
+                                                " Count: " +
+                                                value.toLocaleString(),
+
+                                                " Percentage: " +
+                                                percentage +
+                                                "%"
+
+                                            ];
+
+                                        }
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            );
+
+        }
+
+
+
+        /* =====================================================
+           FRAUD ACTIVITY BY HOUR
+        ===================================================== */
+
+        const fraudHourCanvas =
+            document.getElementById(
+                "fraudHourChart"
+            );
+
+
+        if (fraudHourCanvas) {
+
+
+            new Chart(
+                fraudHourCanvas,
+                {
+
+                    type: "line",
+
+                    data: {
+
+                        labels:
+                            displayHours,
+
+                        datasets: [{
+
+                            label:
+                                "Fraudulent Transactions",
+
+                            data:
+                                hourlyFraudCounts,
+
+                            borderColor:
+                                "#ef4444",
+
+                            backgroundColor:
+                                "rgba(239,68,68,0.12)",
+
+                            fill: true,
+
+                            tension: 0.35,
+
+                            spanGaps: false,
+
+                            pointRadius: 4,
+
+                            pointHoverRadius: 7,
+
+                            pointBackgroundColor:
+                                "#ef4444",
+
+                            pointBorderColor:
+                                "#ffffff",
+
+                            pointBorderWidth: 2,
+
+                            borderWidth: 3
+
+                        }]
+
+                    },
+
+
+                    options: {
+
+                        ...commonOptions,
+
+                        plugins: {
+
+                            legend: {
+
+                                display: true,
+
+                                position: "bottom"
+
+                            },
+
+
+                            tooltip: {
+
+                                callbacks: {
+
+                                    label:
+                                        function(context) {
+
+                                            return (
+                                                " Fraud: " +
+                                                numberValue(
+                                                    context.raw
+                                                ) +
+                                                " transactions"
+                                            );
+
+                                        }
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+            );
+
+        }
+
+
+
+        /* =====================================================
+           AVERAGE AMOUNT CHART
+        ===================================================== */
+
+        const averageAmountCanvas =
+            document.getElementById(
+                "averageAmountChart"
+            );
+
+
+        if (averageAmountCanvas) {
+
+
+            new Chart(
+                averageAmountCanvas,
+                {
+
+                    type: "bar",
+
+                    data: {
+
+                        labels: [
+
+                            "Normal",
+
+                            "Fraud"
+
+                        ],
+
+                        datasets: [{
+
+                            label:
+                                "Average Amount",
+
+                            data: [
+
+                                numberValue(
+                                    "{{ average_normal_amount|default:'0' }}"
+                                ),
+
+                                numberValue(
+                                    "{{ average_fraud_amount|default:'0' }}"
+                                )
+
+                            ],
+
+                            backgroundColor: [
+
+                                "#22c55e",
+
+                                "#ef4444"
+
+                            ],
+
+                            borderColor: [
+
+                                "#16a34a",
+
+                                "#dc2626"
+
+                            ],
+
+                            borderWidth: 1,
+
+                            borderRadius: 8,
+
+                            borderSkipped: false
+
+                        }]
+
+                    },
+
+
+                    options: {
+
+                        ...commonOptions,
+
+                        plugins: {
+
+                            legend: {
+
+                                display: false
+
+                            }
+
+                        }
+
+                    }
+
+                }
+            );
+
+        }
+
+
+
+        /* =====================================================
+           MODEL PERFORMANCE
+        ===================================================== */
+
+        const modelPerformanceCanvas =
+            document.getElementById(
+                "modelPerformanceChart"
+            );
+
+
+        if (modelPerformanceCanvas) {
+
+
+            new Chart(
+                modelPerformanceCanvas,
+                {
+
+                    type: "bar",
+
+                    data: {
+
+                        labels: [
+
+                            "Accuracy",
+
+                            "Precision",
+
+                            "Recall",
+
+                            "F1 Score"
+
+                        ],
+
+                        datasets: [{
+
+                            label:
+                                "Score (%)",
+
+                            data: [
+
+                                numberValue(
+                                    "{{ accuracy|default:'0' }}"
+                                ),
+
+                                numberValue(
+                                    "{{ precision|default:'0' }}"
+                                ),
+
+                                numberValue(
+                                    "{{ recall|default:'0' }}"
+                                ),
+
+                                numberValue(
+                                    "{{ f1_score|default:'0' }}"
+                                )
+
+                            ],
+
+                            backgroundColor: [
+
+                                "#2563eb",
+
+                                "#7c3aed",
+
+                                "#f59e0b",
+
+                                "#0891b2"
+
+                            ],
+
+                            borderRadius: 8,
+
+                            borderSkipped: false
+
+                        }]
+
+                    },
+
+
+                    options: {
+
+                        ...commonOptions,
+
+                        scales: {
+
+                            ...commonOptions.scales,
+
+                            y: {
+
+                                ...commonOptions.scales.y,
+
+                                max: 100,
+
+                                beginAtZero: true
+
+                            }
+
+                        },
+
+
+                        plugins: {
+
+                            legend: {
+
+                                display: false
+
+                            }
+
+                        }
+
+                    }
+
+                }
+            );
+
+        }
+
+
+
+        /* =====================================================
+           NORMAL VS FRAUD 24-HOUR COMPARISON
+        ===================================================== */
+
+        const hourComparisonCanvas =
+            document.getElementById(
+                "hourComparisonChart"
+            );
+
+
+        if (hourComparisonCanvas) {
+
+
+            const comparisonLabels =
+                Array.from(
+                    { length: 24 },
+                    (_, hour) =>
+                        String(hour).padStart(2, "0")
+                        + ":00"
+                );
+
+
+            const normalData =
+                normalize24(
+                    hourlyNormalCounts
+                ).map(
+                    value =>
+                        numberValue(value)
+                );
+
+
+            const fraudData =
+                normalize24(
+                    hourlyFraudCounts
+                ).map(
+                    value =>
+                        numberValue(value)
+                );
+
+
+            console.log(
+                "Comparison labels:",
+                comparisonLabels
+            );
+
+
+            console.log(
+                "Comparison normal:",
+                normalData
+            );
+
+
+            console.log(
+                "Comparison fraud:",
+                fraudData
+            );
+
+
+            /* =================================================
+               CREATE 24-HOUR CHART
+               
+               TWO Y AXES ARE USED.
+
+               LEFT:
+               Normal transaction count
+
+               RIGHT:
+               Fraud transaction count
+
+               This makes both lines clearly visible even
+               though normal transactions are much larger.
+            ================================================= */
+
+            new Chart(
+                hourComparisonCanvas,
+                {
+
+                    type: "line",
+
+
+                    data: {
+
+                        labels:
+                            comparisonLabels,
+
+
+                        datasets: [
+
+
+                            /* =================================
+                               NORMAL TRANSACTIONS
+                            ================================= */
+
+                            {
+
+                                label:
+                                    "Normal Transactions",
+
+                                data:
+                                    normalData,
+
+                                borderColor:
+                                    "#16a34a",
+
+                                backgroundColor:
+                                    "rgba(34,197,94,0.07)",
+
+                                fill: true,
+
+                                tension: 0.25,
+
+                                spanGaps: false,
+
+                                pointRadius: 4,
+
+                                pointHoverRadius: 7,
+
+                                pointBackgroundColor:
+                                    "#16a34a",
+
+                                pointBorderColor:
+                                    "#ffffff",
+
+                                pointBorderWidth: 2,
+
+                                borderWidth: 3,
+
+                                yAxisID:
+                                    "normalAxis"
+
+                            },
+
+
+                            /* =================================
+                               FRAUD TRANSACTIONS
+                            ================================= */
+
+                            {
+
+                                label:
+                                    "Fraudulent Transactions",
+
+                                data:
+                                    fraudData,
+
+                                borderColor:
+                                    "#dc2626",
+
+                                backgroundColor:
+                                    "rgba(239,68,68,0.08)",
+
+                                fill: false,
+
+                                tension: 0.25,
+
+                                spanGaps: false,
+
+                                pointRadius: 5,
+
+                                pointHoverRadius: 8,
+
+                                pointBackgroundColor:
+                                    "#dc2626",
+
+                                pointBorderColor:
+                                    "#ffffff",
+
+                                pointBorderWidth: 2,
+
+                                borderWidth: 4,
+
+                                yAxisID:
+                                    "fraudAxis"
+
+                            }
+
+                        ]
+
+                    },
+
+
+                    options: {
+
+                        responsive: true,
+
+                        maintainAspectRatio: false,
+
+
+                        interaction: {
+
+                            mode: "index",
+
+                            intersect: false
+
+                        },
+
+
+                        animation: {
+
+                            duration: 1000,
+
+                            easing:
+                                "easeOutQuart"
+
+                        },
+
+
+                        scales: {
+
+
+                            /* =================================
+                               X AXIS
+                            ================================= */
+
+                            x: {
+
+                                type:
+                                    "category",
+
+                                offset:
+                                    false,
+
+                                grid: {
+
+                                    display:
+                                        false
+
+                                },
+
+                                ticks: {
+
+                                    autoSkip:
+                                        false,
+
+                                    maxRotation:
+                                        45,
+
+                                    minRotation:
+                                        45,
+
+                                    color:
+                                        "#64748b",
+
+                                    font: {
+
+                                        size: 9,
+
+                                        weight:
+                                            "600"
+
+                                    }
+
+                                },
+
+                                title: {
+
+                                    display:
+                                        true,
+
+                                    text:
+                                        "Hour of Day",
+
+                                    color:
+                                        "#475569",
+
+                                    font: {
+
+                                        size: 11,
+
+                                        weight:
+                                            "700"
+
+                                    }
+
+                                }
+
+                            },
+
+
+                            /* =================================
+                               NORMAL Y AXIS
+                            ================================= */
+
+                            normalAxis: {
+
+                                type:
+                                    "linear",
+
+                                position:
+                                    "left",
+
+                                beginAtZero:
+                                    true,
+
+                                grid: {
+
+                                    color:
+                                        "rgba(34,197,94,0.10)"
+
+                                },
+
+                                ticks: {
+
+                                    color:
+                                        "#15803d",
+
+                                    precision:
+                                        0,
+
+                                    font: {
+
+                                        size: 10,
+
+                                        weight:
+                                            "600"
+
+                                    },
+
+                                    callback:
+                                        function(value) {
+
+                                            return Number(
+                                                value
+                                            ).toLocaleString();
+
+                                        }
+
+                                },
+
+                                title: {
+
+                                    display:
+                                        true,
+
+                                    text:
+                                        "Normal Transactions",
+
+                                    color:
+                                        "#15803d",
+
+                                    font: {
+
+                                        size: 11,
+
+                                        weight:
+                                            "700"
+
+                                    }
+
+                                }
+
+                            },
+
+
+                            /* =================================
+                               FRAUD Y AXIS
+                            ================================= */
+
+                            fraudAxis: {
+
+                                type:
+                                    "linear",
+
+                                position:
+                                    "right",
+
+                                beginAtZero:
+                                    true,
+
+                                grid: {
+
+                                    drawOnChartArea:
+                                        false
+
+                                },
+
+                                ticks: {
+
+                                    color:
+                                        "#dc2626",
+
+                                    precision:
+                                        0,
+
+                                    font: {
+
+                                        size: 10,
+
+                                        weight:
+                                            "600"
+
+                                    },
+
+                                    callback:
+                                        function(value) {
+
+                                            return Number(
+                                                value
+                                            ).toLocaleString();
+
+                                        }
+
+                                },
+
+                                title: {
+
+                                    display:
+                                        true,
+
+                                    text:
+                                        "Fraud Transactions",
+
+                                    color:
+                                        "#dc2626",
+
+                                    font: {
+
+                                        size: 11,
+
+                                        weight:
+                                            "700"
+
+                                    }
+
+                                }
+
+                            }
+
+                        },
+
+
+                        plugins: {
+
+
+                            /* =================================
+                               LEGEND
+                            ================================= */
+
+                            legend: {
+
+                                display:
+                                    true,
+
+                                position:
+                                    "bottom",
+
+                                labels: {
+
+                                    usePointStyle:
+                                        true,
+
+                                    pointStyle:
+                                        "line",
+
+                                    padding:
+                                        18,
+
+                                    color:
+                                        "#475569",
+
+                                    font: {
+
+                                        size: 11,
+
+                                        weight:
+                                            "600"
+
+                                    }
+
+                                }
+
+                            },
+
+
+                            /* =================================
+                               TOOLTIP
+                            ================================= */
+
+                            tooltip: {
+
+                                backgroundColor:
+                                    "#0f172a",
+
+                                titleColor:
+                                    "#ffffff",
+
+                                bodyColor:
+                                    "#e2e8f0",
+
+                                padding:
+                                    12,
+
+                                cornerRadius:
+                                    8,
+
+                                displayColors:
+                                    true,
+
+
+                                callbacks: {
+
+                                    title:
+                                        function(context) {
+
+                                            return (
+                                                "Hour: " +
+                                                context[0].label
+                                            );
+
+                                        },
+
+
+                                    label:
+                                        function(context) {
+
+                                            return (
+                                                " " +
+                                                context.dataset.label +
+                                                ": " +
+                                                numberValue(
+                                                    context.raw
+                                                ) +
+                                                " transactions"
+                                            );
+
+                                        }
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+            );
+
+        }
+
+
+    }
+
+);
+
+</script>
+
+{% endblock %}
